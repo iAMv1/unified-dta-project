@@ -8,3 +8,4 @@ data/kiba_train.csv filter=lfs diff=lfs merge=lfs -text
 tools/_dups/external/DoubleSG-DTA/AttentionDTA_TCBB-main/AttentionDTA_TCBB-main/datasets/KIBA.txt filter=lfs diff=lfs merge=lfs -text
 tools/misc/Data_folded.rar filter=lfs diff=lfs merge=lfs -text
 tools/misc/data.rar filter=lfs diff=lfs merge=lfs -text
+data/raw/kiba/kiba_train.csv filter=lfs diff=lfs merge=lfs -text
