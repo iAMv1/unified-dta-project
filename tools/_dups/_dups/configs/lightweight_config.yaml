@@ -1,0 +1,55 @@
+# Lightweight Development Configuration
+# Optimized for fast development and testing with minimal memory usage
+
+protein_encoder_type: cnn
+drug_encoder_type: gin
+use_fusion: false
+device: auto
+seed: 42
+verbose: true
+log_level: INFO
+
+protein_config:
+  output_dim: 64
+  vocab_size: 25
+  embed_dim: 64
+  num_filters: [32, 64]
+  kernel_size: 8
+  max_length: 100
+
+drug_config:
+  output_dim: 64
+  node_features: 78
+  hidden_dim: 64
+  num_layers: 3
+  dropout: 0.2
+  use_batch_norm: true
+
+predictor_config:
+  hidden_dims: [128]
+  dropout: 0.2
+  activation: relu
+
+training_config:
+  batch_size: 8
+  learning_rate_phase1: 0.001
+  learning_rate_phase2: 0.0001
+  num_epochs_phase1: 20
+  num_epochs_phase2: 10
+  weight_decay: 0.00001
+  early_stopping_patience: 10
+  checkpoint_interval: 5
+  gradient_clip_norm: 1.0
+  max_memory_mb: 1000
+  enable_gradient_checkpointing: true
+  memory_monitoring_interval: 10
+  aggressive_memory_cleanup: false
+
+data_config:
+  datasets: [kiba]
+  data_dir: data
+  max_protein_length: 100
+  validation_split: 0.1
+  test_split: 0.1
+  num_workers: 2
+  pin_memory: false

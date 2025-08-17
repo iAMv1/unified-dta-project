@@ -1,0 +1,57 @@
+# High-Performance Configuration
+# Maximum performance for large-scale research and high-accuracy requirements
+
+protein_encoder_type: esm
+drug_encoder_type: gin
+use_fusion: true
+device: auto
+seed: 42
+verbose: true
+log_level: INFO
+
+protein_config:
+  output_dim: 256
+  max_length: 400
+  model_name: facebook/esm2_t12_35M_UR50D
+  freeze_initial: true
+
+drug_config:
+  output_dim: 256
+  node_features: 78
+  hidden_dim: 256
+  num_layers: 7
+  dropout: 0.3
+  use_batch_norm: true
+
+fusion_config:
+  hidden_dim: 512
+  num_heads: 16
+
+predictor_config:
+  hidden_dims: [1024, 512, 256]
+  dropout: 0.4
+  activation: gelu
+
+training_config:
+  batch_size: 2
+  learning_rate_phase1: 0.001
+  learning_rate_phase2: 0.0001
+  num_epochs_phase1: 100
+  num_epochs_phase2: 50
+  weight_decay: 0.00001
+  early_stopping_patience: 15
+  checkpoint_interval: 5
+  gradient_clip_norm: 1.0
+  max_memory_mb: 8000
+  enable_gradient_checkpointing: true
+  memory_monitoring_interval: 5
+  aggressive_memory_cleanup: true
+
+data_config:
+  datasets: [kiba, davis, bindingdb]
+  data_dir: data
+  max_protein_length: 400
+  validation_split: 0.1
+  test_split: 0.1
+  num_workers: 8
+  pin_memory: true

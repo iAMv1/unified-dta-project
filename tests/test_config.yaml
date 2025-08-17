@@ -1,0 +1,115 @@
+# Test Configuration for Unified DTA System
+# Defines test parameters and settings
+
+test_settings:
+  # General test settings
+  random_seed: 42
+  device: 'cpu'  # Force CPU for consistent testing
+  timeout: 300   # Test timeout in seconds
+  
+  # Memory limits for testing
+  max_memory_mb: 1000  # Maximum memory usage for tests
+  
+  # Performance benchmarks
+  performance_thresholds:
+    inference_time_per_sample_ms: 1000  # Max 1 second per sample
+    training_step_time_s: 5.0           # Max 5 seconds per training step
+    memory_increase_mb: 500             # Max 500MB memory increase
+    
+  # Test data settings
+  test_data:
+    batch_sizes: [1, 2, 4, 8]
+    molecule_sizes: [5, 10, 20]
+    protein_lengths: [50, 100, 200]
+    num_test_samples: 50
+
+# Test datasets
+test_datasets:
+  small_dataset:
+    num_samples: 10
+    smiles:
+      - 'CCO'                    # Ethanol
+      - 'CC(=O)O'               # Acetic acid
+      - 'c1ccccc1'              # Benzene
+      - 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'  # Caffeine
+      - 'CC(C)CC1=CC=C(C=C1)C(C)C(=O)O'  # Ibuprofen
+    proteins:
+      - 'MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG'
+      - 'MSANNSPPSAQKSVLPTAIPAVLPAASPCSSPKTGLSARLSNGSFSAPSLPQPQPQPQPQPQPQ'
+    affinities: [7.5, 6.2, 8.1, 6.8, 7.2]
+  
+  medium_dataset:
+    num_samples: 50
+    # Will be generated programmatically
+
+# Model configurations for testing
+test_models:
+  minimal:
+    protein_encoder_type: 'cnn'
+    drug_encoder_type: 'gin'
+    use_fusion: false
+    protein_config:
+      embed_dim: 32
+      num_filters: [16, 32]
+      output_dim: 32
+    drug_config:
+      hidden_dim: 32
+      num_layers: 2
+      output_dim: 32
+    predictor_config:
+      hidden_dims: [64]
+      dropout: 0.1
+  
+  lightweight:
+    protein_encoder_type: 'cnn'
+    drug_encoder_type: 'gin'
+    use_fusion: false
+    protein_config:
+      embed_dim: 64
+      num_filters: [32, 64]
+      output_dim: 64
+    drug_config:
+      hidden_dim: 64
+      num_layers: 3
+      output_dim: 64
+    predictor_config:
+      hidden_dims: [128]
+      dropout: 0.2
+
+# Test categories and their requirements
+test_categories:
+  unit_tests:
+    required_packages: ['torch', 'pandas', 'yaml']
+    optional_packages: []
+    timeout: 60
+    
+  integration_tests:
+    required_packages: ['torch', 'pandas', 'yaml']
+    optional_packages: ['torch_geometric', 'transformers']
+    timeout: 300
+    
+  performance_tests:
+    required_packages: ['torch', 'pandas', 'psutil']
+    optional_packages: ['torch_geometric']
+    timeout: 600
+    
+  ci_tests:
+    required_packages: ['yaml']
+    optional_packages: []
+    timeout: 30
+
+# Expected test coverage
+coverage_targets:
+  overall: 80  # 80% overall coverage
+  modules:
+    core.models: 85
+    core.data_processing: 80
+    core.config: 90
+    core.utils: 75
+
+# Test reporting
+reporting:
+  generate_html_report: true
+  generate_xml_report: true
+  include_performance_metrics: true
+  save_benchmark_results: true

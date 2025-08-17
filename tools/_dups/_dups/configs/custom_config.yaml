@@ -1,0 +1,44 @@
+# Custom Configuration Example
+# Inherits from base configuration and overrides specific settings
+
+inherits_from: base_config.yaml
+
+protein_encoder_type: esm
+drug_encoder_type: gin
+use_fusion: true
+
+protein_config:
+  output_dim: 192
+  max_length: 250
+  model_name: facebook/esm2_t6_8M_UR50D
+  freeze_initial: true
+
+drug_config:
+  output_dim: 192
+  node_features: 78
+  hidden_dim: 192
+  num_layers: 6
+  dropout: 0.25
+  use_batch_norm: true
+
+fusion_config:
+  hidden_dim: 384
+  num_heads: 12
+
+predictor_config:
+  hidden_dims: [768, 384, 192]
+  dropout: 0.35
+  activation: gelu
+
+training_config:
+  batch_size: 3
+  learning_rate_phase1: 0.0008
+  learning_rate_phase2: 0.00008
+  num_epochs_phase1: 60
+  num_epochs_phase2: 40
+  max_memory_mb: 6000
+
+data_config:
+  datasets: [kiba, davis]
+  max_protein_length: 250
+  num_workers: 6

@@ -1,0 +1,22 @@
+# Base Configuration
+# Common settings that can be inherited by other configurations
+
+device: auto
+seed: 42
+verbose: true
+log_level: INFO
+
+training_config:
+  weight_decay: 0.00001
+  early_stopping_patience: 10
+  checkpoint_interval: 5
+  gradient_clip_norm: 1.0
+  enable_gradient_checkpointing: true
+  memory_monitoring_interval: 10
+  aggressive_memory_cleanup: false
+
+data_config:
+  data_dir: data
+  validation_split: 0.1
+  test_split: 0.1
+  pin_memory: true
